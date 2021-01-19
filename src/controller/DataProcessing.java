@@ -3,6 +3,7 @@ package controller;
 import model.Living;
 import model.Money;
 
+import java.io.*;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
@@ -10,8 +11,8 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 public class DataProcessing {
-    List<Money>listMoney=new ArrayList<>();
     public static List<Living>listLiving=new ArrayList<>();
+    public static List<Money>listMoney=new ArrayList<>();
     Scanner scanner= new Scanner(System.in);
     private static final String DATE="^(?:(?:31(\\/|-|\\.)(?:0?[13578]|1[02]|(?:Jan|Mar|May|Jul|Aug|Oct|Dec)))\\1|(?:(?:29|30)(\\/|-|\\.)" +
             "(?:0?[1,3-9]|1[0-2]|(?:Jan|Mar|Apr|May|Jun|Jul|Aug|Sep|Oct|Nov|Dec))\\2))(?:(?:1[6-9]|[2-9]\\d)?\\d{2})$|^(?:29(\\/|-|\\.)" +
@@ -23,14 +24,9 @@ public class DataProcessing {
 //        this.scanner=new Scanner(System.in);
 //        this.dataProces=new DataProces();
 //    }
-    Living living=new Living();
-    Money money= new Money();
-    public void addPrice(){
-        System.out.println("nhap tien");
-        double totalMoney=Double.parseDouble(scanner.nextLine());
-        living.setMoney(money.setMoney(totalMoney));
-    }
+
     public void add(){
+        Living living=new Living();
         boolean check1= false;
 
         do {
@@ -94,6 +90,7 @@ public class DataProcessing {
             living.setNote(note);
         listLiving.add(living);
     }
+    Money money= new Money();
     public void edit(String path){
         System.out.println("Enter The Name Of The Account You Want To Edit");
         String name= scanner.nextLine();
@@ -192,29 +189,68 @@ public class DataProcessing {
         }
         listLiving.remove(n);
     }
-
+    double totalSpending=0;
+    double  resetMoney=0;
     public void show(List<Living> listLiving){
-        double totalSpending=0;
-        double resetMoney=0;
 
         System.out.println("           ----------BILLL----------");
-        System.out.println("   DATE    |     EXPENSES    |      PRICE    |    NOTE   ");
+        System.out.println("   DATE    |       EXPENSES      |       PRICE     |    NOTE   ");
         for (Living l: DataProcessing.listLiving
              ) {
             if (l instanceof  Living){
-                System.out.println(l.getDay()+"\t\t\t"+l.getExpenses()+"\t\t\t\t"+l.getSpendingMoney()+"\t\t\t\t"+l.getNote());
+                System.out.println(l.getDay()+"\t\t"+l.getExpenses()+"\t\t\t\t\t\t"+l.getSpendingMoney()+"\t\t\t"+l.getNote());
             }
             totalSpending+=l.getSpendingMoney();
         }
         System.out.println("Total Spending: "+totalSpending);
-        for (Living l: DataProcessing.listLiving
-        ) {
-            if (l instanceof  Living){
-                resetMoney=(l.getMoney(money.getMoney())-totalSpending);
-            }
-        }System.out.println(resetMoney);
+
+                for (Money m:listMoney
+                ) {
+                    if (m instanceof Money){
+                        resetMoney=(m.getMoney());
+                    }
+                    resetMoney-=totalSpending;
+                }
+
+        System.out.println("Reset Money: "+resetMoney);
+
     }
-//    public void calculate(){
-//
-//    }
+    public void writeMoney(){
+        File file= new File("money.txt");
+        try {
+            if (!file.exists()){
+                file.createNewFile();
+            }
+            BufferedWriter bufferedWriter=new BufferedWriter(new FileWriter(file));
+            bufferedWriter.append(String.valueOf(resetMoney));
+            bufferedWriter.close();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+    public void readMoney(){
+        try {
+            BufferedReader bufferedReader=new BufferedReader(new FileReader("money.txt"));
+            String  line;
+            while ((line=bufferedReader.readLine())!=null){
+                System.out.println(""+line);
+            }
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+    public void addPrice(){
+        Money money=new Money();
+        double totalMoney=0;
+        if (totalMoney<=0){
+            Scanner scanner=new Scanner(System.in);
+            System.out.println("nhap tien");
+            totalMoney=Double.parseDouble(scanner.nextLine());
+            money.setMoney(totalMoney);
+        }
+        listMoney.add(money);
+    }
 }

@@ -21,8 +21,6 @@ public class Money  {
 
     @Override
     public String toString() {
-        return "Money{" +
-                "money=" + money +
-                '}';
+        return money+"";
     }
 }

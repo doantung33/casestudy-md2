@@ -29,6 +29,7 @@ public class Main {
                     break;
                 case 2:
                     dataProcessing.show(DataProcessing.listLiving);
+                    dataProcessing.readMoney();
                     break;
                 case 3:
                     dataProcessing.edit("spending.txt");
@@ -38,6 +39,10 @@ public class Main {
                     break;
                 case 5:
                     IOWriter.fileWriter("spending.txt");
+                    dataProcessing.writeMoney();
+                    break;
+                case 6:
+                    dataProcessing.writeMoney();
                     break;
             }
 

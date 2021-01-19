@@ -25,8 +25,8 @@ public class Living implements Serializable {
         this.note = note;
     }
 
-    public Living(Money money, String day, String expenses, double spendingMoney, String note) {
-        this.money = money;
+    public Living(double money, String day, String expenses, double spendingMoney, String note) {
+        this.money.setMoney(money);
         this.day = day;
         this.expenses = expenses;
         this.spendingMoney = spendingMoney;
