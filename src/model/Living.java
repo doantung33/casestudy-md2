@@ -3,7 +3,6 @@ package model;
 import java.io.Serializable;
 
 public class Living implements Serializable {
-    private Money money=new Money();
     private String day;
     private String expenses;
     private double spendingMoney;
@@ -18,28 +17,14 @@ public class Living implements Serializable {
         this.spendingMoney = spendingMoney;
     }
 
-    public Living(String day, String expenses, double spendingMoney, String note) {
+
+    public Living( String day, String expenses, double spendingMoney, String note) {
         this.day = day;
         this.expenses = expenses;
         this.spendingMoney = spendingMoney;
         this.note = note;
     }
 
-    public Living(double money, String day, String expenses, double spendingMoney, String note) {
-        this.money.setMoney(money);
-        this.day = day;
-        this.expenses = expenses;
-        this.spendingMoney = spendingMoney;
-        this.note = note;
-    }
-
-    public double getMoney(double money) {
-        return money;
-    }
-
-    public void setMoney(Money money) {
-        this.money = money;
-    }
 
     public String getDay() {
         return day;
@@ -55,6 +40,7 @@ public class Living implements Serializable {
 
     public void setExpenses(String expenses) {
         this.expenses = expenses;
+
     }
 
     public double getSpendingMoney() {
@@ -63,6 +49,7 @@ public class Living implements Serializable {
 
     public void setSpendingMoney(double spendingMoney) {
         this.spendingMoney = spendingMoney;
+
     }
 
     public String getNote() {
@@ -71,6 +58,7 @@ public class Living implements Serializable {
 
     public void setNote(String note) {
         this.note = note;
+
     }
 
     @Override
